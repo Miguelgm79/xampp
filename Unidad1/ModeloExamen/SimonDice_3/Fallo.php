@@ -32,7 +32,7 @@ unset($_SESSION["jugada"]);
         <?php pintar_circulos(...$jugada); ?>
     </div>
 
-    <form action="dificultad.php" method="post">
+    <form action="Dificultad.php" method="post">
         <input type="submit" value="Intentar otra vez">
     </form>
 </body>
