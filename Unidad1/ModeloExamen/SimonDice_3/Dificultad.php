@@ -34,6 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <option value="7">Muy difícil (7 círculos)</option>
             <option value="8">Experto (8 círculos)</option>
         </select>
+        <br><br>
         <label for="num_colores">Número de colores:</label>
         <select name="num_colores" id="num_colores">
             <option value="4">Fácil (4 colores)</option>

@@ -44,6 +44,10 @@ if (count($jugada) == $num_circulos) {
         <button name="color" value="blue">AZUL</button>
         <button name="color" value="yellow">AMARILLO</button>
         <button name="color" value="green">VERDE</button>
+        <button name="color" value="purple">MORADO</button>
+        <button name="color" value="orange">NARANJA</button>
+        <button name="color" value="pink">ROSA</button>
+        <button name="color" value="brown">MARRON</button>
     </form>
 </body>
 </html>
