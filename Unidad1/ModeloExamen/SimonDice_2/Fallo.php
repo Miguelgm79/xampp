@@ -3,7 +3,6 @@ session_start();
 require_once "pintarCirculos.php";
 
 
-$usuario = $_SESSION["usuario"];
 $correcta = $_SESSION["combinacion_correcta"];
 $jugada = $_SESSION["jugada"];
 $num_circulos = $_SESSION["num_circulos"];
