@@ -3,7 +3,7 @@ session_start();
 require_once "pintarCirculos.php";
 
 
-
+$num_colores = $_SESSION["num_colores"]; 
 $correcta = $_SESSION["combinacion_correcta"];
 $num_circulos = $_SESSION["num_circulos"];
 

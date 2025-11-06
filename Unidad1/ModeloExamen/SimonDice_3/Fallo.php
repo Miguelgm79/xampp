@@ -2,6 +2,8 @@
 session_start();
 require_once "pintarCirculos.php";
 
+
+$num_colores = $_SESSION["num_colores"];
 $correcta = $_SESSION["combinacion_correcta"];
 $jugada = $_SESSION["jugada"];
 $num_circulos = $_SESSION["num_circulos"];
@@ -30,4 +32,8 @@ unset($_SESSION["jugada"]);
         <?php pintar_circulos(...$jugada); ?>
     </div>
 
-    <form action="dificultad.php" method="post">
+    <form action="Dificultad.php" method="post">
+        <input type="submit" value="Intentar otra vez">
+    </form>
+</body>
+</html>
