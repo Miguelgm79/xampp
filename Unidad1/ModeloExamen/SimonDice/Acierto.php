@@ -19,5 +19,9 @@ unset($_SESSION["jugada"]);
     <form action="inicio.php" method="post">
         <input type="submit" value="Nueva partida">
     </form>
+    <br>
+    <form action="estadisticas.php" method="post">
+        <input type="submit" value="Estadisticas">
+    </form>
 </body>
 </html>
