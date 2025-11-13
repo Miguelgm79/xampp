@@ -103,18 +103,60 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             margin-top: -5px;
             margin-bottom: 10px;
         }
+
+        /* Contenedor para ambos formularios */
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px; /* separa ligeramente los formularios */
+        }
+
+        /* Segundo formulario (crear cuenta) */
+        .crear-form {
+            background: transparent;
+            box-shadow: none;
+            width: 320px;
+            text-align: center;
+            margin-top: -10px;
+        }
+
+        .crear-form input[type="submit"] {
+            width: 100%;
+            background: #6c757d; /* gris neutro */
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .crear-form input[type="submit"]:hover {
+            background: #5a6268;
+}
     </style>
 <body>
+    <div class="login-container">
     <form method="post">
-        <h2>Inicio de Sesion</h2><br>
-    <label for="usuario">Usuario: </label>
-            <input type="text" id="usuario" name="usuario" required><br><br>
-    <label for="clave">Contraseña: </label>
-            <input type="password" id="clave" name="clave" required><br><br>
-    <input type="submit" value="Entrar">
+        <h2>Inicio de Sesión</h2>
+        <label for="usuario">Usuario:</label>
+        <input type="text" id="usuario" name="usuario" required>
+
+        <label for="clave">Contraseña:</label>
+        <input type="password" id="clave" name="clave" required>
+
+        <input type="submit" value="Entrar">
     </form>
+
     <?php if (!empty($error)): ?>
-            <p class="error"><?php echo $error; ?></p>
-        <?php endif; ?>
+        <p class="error"><?php echo $error; ?></p>
+    <?php endif; ?>
+
+    <form action="crearCuenta.php" method="post" class="crear-form">
+        <input type="submit" value="Crear Cuenta">
+    </form>
+</div>
+
 </body>
 </html>
