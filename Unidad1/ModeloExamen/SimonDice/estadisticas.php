@@ -100,6 +100,9 @@ $conexion->close();
         </tr>
         <?php endforeach; ?>
     </table>
+    <form action="login.php">
+        <input type="submit" value="Volver al inicio">
+    </form>
 </div>
 
 </body>

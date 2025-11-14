@@ -4,9 +4,8 @@ require_once "pintarCirculos.php";
 
 $conexion = new mysqli("localhost", "root", "", "bdsimon");
 $codigoUsuario = $_SESSION["codigo"];
-$acierto = 0; // porque estamos en ACUERTO
 
-$sql = "INSERT INTO jugadas (codigousu, acierto) VALUES ($codigoUsuario, $acierto)";
+$sql = "INSERT INTO jugadas (codigousu, acierto) VALUES ($codigoUsuario, 0)";
 $conexion->query($sql);
 $conexion->close();
 
