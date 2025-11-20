@@ -11,7 +11,14 @@ if ($conexion->connect_error) {
 
 
 // ----------------------------------------
-//   CONSULTA SQL COMPLETA
+//   FILTROS RECIBIDOS POR GET
+// ----------------------------------------
+$filtroCirculos = isset($_GET["circulos"]) && $_GET["circulos"] !== "" ? (int)$_GET["circulos"] : null;
+$filtroColores  = isset($_GET["colores"])  && $_GET["colores"]  !== "" ? (int)$_GET["colores"]  : null;
+
+
+// ----------------------------------------
+//   CONSULTA SQL CON FILTROS
 // ----------------------------------------
 $sql = "
    SELECT 
@@ -24,11 +31,27 @@ $sql = "
    FROM usuarios u
    LEFT JOIN jugadas j ON u.Codigo = j.codigousu
    WHERE 1 = 1
+";
+
+// AÑADIR LOS FILTROS
+if ($filtroCirculos !== null) {
+    $sql .= " AND j.numCirculos = $filtroCirculos";
+}
+if ($filtroColores !== null) {
+    $sql .= " AND j.numColores = $filtroColores";
+}
+
+$sql .= "
    GROUP BY u.Codigo, u.Nombre, j.numCirculos, j.numColores
    ORDER BY u.Codigo, j.numCirculos, j.numColores;
 ";
 
 $resultado = $conexion->query($sql);
+
+
+// ----------------------------------------
+//   PROCESAR RESULTADOS
+// ----------------------------------------
 $datos = [];
 $maxAciertos = 0;
 
@@ -36,7 +59,6 @@ while ($fila = $resultado->fetch_assoc()) {
 
     $aciertos = (int)$fila["aciertos"];
     $fallos   = (int)$fila["fallos"];
-    $total    = $aciertos + $fallos;
 
     $datos[] = [
         "cod"      => $fila["Codigo"],
@@ -53,6 +75,7 @@ while ($fila = $resultado->fetch_assoc()) {
 }
 
 $conexion->close();
+
 ?>
 
 <!DOCTYPE html>
@@ -90,7 +113,36 @@ $conexion->close();
 <body>
 
 <div class="contenedor">
+
     <h2>Estadísticas de Usuarios</h2>
+
+    <!-- FORMULARIO DE FILTROS -->
+    <form method="GET">
+        <label>Círculos:</label>
+        <select name="circulos">
+            <option value="">Todos</option>
+            <?php for ($i = 4; $i <= 8; $i++): ?>
+                <option value="<?= $i ?>" <?= ($filtroCirculos === $i) ? "selected" : "" ?>>
+                    <?= $i ?> círculos
+                </option>
+            <?php endfor; ?>
+        </select>
+
+        <label style="margin-left: 20px;">Colores:</label>
+        <select name="colores">
+            <option value="">Todos</option>
+            <?php for ($j = 4; $j <= 8; $j++): ?>
+                <option value="<?= $j ?>" <?= ($filtroColores === $j) ? "selected" : "" ?>>
+                    <?= $j ?> colores
+                </option>
+            <?php endfor; ?>
+        </select>
+
+        <input type="submit" value="Filtrar" style="margin-left: 20px;">
+    </form>
+
+
+    <!-- TABLA DE ESTADÍSTICAS -->
     <table>
         <tr>
             <th>Código</th>
