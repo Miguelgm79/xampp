@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $claveHash = password_hash($clave1, PASSWORD_DEFAULT);
 
-    // Validar usuario único
+    // Validar usuario o email único
     $stmt = $conexion->prepare("SELECT cod_usu FROM usuarios WHERE nombre=? OR email=?");
     $stmt->bind_param("ss", $usuario, $email);
     $stmt->execute();
@@ -86,7 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="url" id="website" name="website"><br> 
 
         <label for="comentarios">Comentarios:</label><br>
-        <textarea id="comentarios" name="comentarios"></textarea><br>
+        <textarea id="comentarios" name="comentarios" rows="5" cols="20" style="width: 225px; height: 105px;"></textarea><br>
 
         <p>Género:</p>
         <input type="radio" id="mujer" name="genero" value="1" required>
