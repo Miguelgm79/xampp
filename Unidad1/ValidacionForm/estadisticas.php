@@ -1,20 +1,20 @@
 <?php
 session_start();
 
-// Conexión a la base de datos
+// Conexión
 $conexion = new mysqli("localhost", "root", "", "bdvalform");
 if ($conexion->connect_error) {
     die("Error de conexión: " . $conexion->connect_error);
 }
 
-// Verificar si el usuario está en sesión
+// Si no hay usuario logueado → error
 if (!isset($_SESSION['usuario'])) {
     die("Acceso denegado. Debes iniciar sesión primero.");
 }
 
-// Recuperar datos del usuario desde la base de datos
-$usuario = $_SESSION['usuario'];
+$usuario = $_SESSION['usuario']; 
 
+// Consulta al usuario
 $stmt = $conexion->prepare("SELECT nombre, email, website, genero, comentarios FROM usuarios WHERE nombre=?");
 $stmt->bind_param("s", $usuario);
 $stmt->execute();
@@ -26,6 +26,7 @@ if ($resultado->num_rows > 0) {
     die("No se encontraron datos del usuario.");
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>

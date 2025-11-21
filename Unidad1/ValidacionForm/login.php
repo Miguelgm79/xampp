@@ -17,15 +17,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $comentarios = trim($_POST['comentarios']);
     $genero = $_POST['genero'];
 
-    // Validar contraseñas
+    $patron = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/";
+
+    // Validar formato de contraseña
+    if (!preg_match($patron, $clave1)) {
+        die(" La contraseña debe incluir:
+            - Mayúsculas
+            - Minúsculas
+            - Números
+            - Símbolos
+            - Mínimo 8 caracteres");
+    }
     if ($clave1 !== $clave2) {
         die("Las contraseñas no coinciden.");
     }
 
-    // Encriptar contraseña
     $claveHash = password_hash($clave1, PASSWORD_DEFAULT);
 
-    // Validar que el usuario no exista
+    // Validar usuario único
     $stmt = $conexion->prepare("SELECT cod_usu FROM usuarios WHERE nombre=? OR email=?");
     $stmt->bind_param("ss", $usuario, $email);
     $stmt->execute();
@@ -35,17 +44,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("El usuario o email ya existe.");
     }
 
-    // Insertar nuevo usuario
+    // Insertar usuario
     $stmt = $conexion->prepare("INSERT INTO usuarios (nombre, contraseña, email, website, genero, comentarios) VALUES (?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("ssssss", $usuario, $claveHash, $email, $website, $genero, $comentarios);
 
     if ($stmt->execute()) {
-        echo "Registro exitoso. Ahora puedes iniciar sesión.";
+        $_SESSION['usuario'] = $usuario;
+
+        header("Location: estadisticas.php");
+        exit;
     } else {
         echo "Error al registrar: " . $conexion->error;
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>login</title>
 </head>
 <body>
-    <form method="post" action="estadisticas.php">
+    <form method="post" action="">
         <h2>Registro de Usuario</h2>
 
         <label for="usuario">Usuario:</label><br>
@@ -76,10 +89,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <textarea id="comentarios" name="comentarios"></textarea><br>
 
         <p>Género:</p>
-        <input type="radio" id="mujer" name="genero" value="Mujer" required>
+        <input type="radio" id="mujer" name="genero" value="1" required>
         <label for="mujer">Mujer</label><br>
 
-        <input type="radio" id="hombre" name="genero" value="Hombre" required>
+        <input type="radio" id="hombre" name="genero" value="0" required>
         <label for="hombre">Hombre</label><br><br>
 
         <input type="submit" value="Registrarse">
