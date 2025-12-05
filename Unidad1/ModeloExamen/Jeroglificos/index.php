@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['usuario'], $_POST['cl
         // 4. Verificación del Resultado
         if ($resultado && $resultado->num_rows === 1) {
             
-            $_SESSION["usuario"] = $usuario
+            $_SESSION["usuario"] = $usuario;
 
             header("Location: inicio.php");
             exit;
