@@ -46,7 +46,7 @@ for ($i=0; $i<6; $i++){
         echo "<img src='$imagen' alt='carta'>";
     }
     else{
-        echo "<img src='./imagenes/boca_abajo.jpg' alt='carta negra' width='200' height='200' margin-right='10px'>";
+        echo "<img src='./imagenes/boca_abajo.jpg' alt='carta negra' width='200' height='380' margin-right='10px'>";
     }
 }
 
