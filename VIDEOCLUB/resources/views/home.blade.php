@@ -20,6 +20,10 @@
                     <a href="{{ url('catalog') }}" class="btn btn-primary">
                         Ir al catálogo
                     </a>
+                    <a href="{{ url('sesion') }}" class="btn btn-primary">
+                        Ir al contador
+                    </a>
+
                 </div>
             </div>
         </div>

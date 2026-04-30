@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CatalogController; 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\SesionController;
 
 Route::get('/', [HomeController::class, 'index']);
 
@@ -27,3 +28,13 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('logout', [LoginController::class, 'logout']);
 
 Route::get('catalog', [CatalogController::class, 'getIndex'])->middleware('auth');
+
+Route::middleware(['auth'])->group(function () {
+
+    Route::get('/sesion', [SesionController::class, 'index']);
+
+    Route::post('/sesion/incrementar', [SesionController::class, 'incrementar']);
+    Route::post('/sesion/decrementar', [SesionController::class, 'decrementar']);
+    Route::post('/sesion/reset', [SesionController::class, 'reset']);
+
+});

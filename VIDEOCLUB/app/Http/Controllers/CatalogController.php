@@ -80,7 +80,7 @@ class CatalogController extends Controller
     // 4. Redirigimos a la vista de detalle de esa película
     return redirect('/catalog/show/' . $id);
 }
-	
+
 }
 
 
