@@ -2,79 +2,48 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class CalculadoraController extends Controller
 {
-    // Método para mostrar la vista por primera vez (vacía)
     public function index()
     {
         return view('calculadora');
     }
 
-    // Metodo para procesar el calculo
     public function calcular(Request $request)
     {
-        //validamos que lo campos sean numericos
-        $request->validate([
-            'n1' => 'required|numeric',
-            'n2' => 'required|numeric',
-            'operador' => 'required|string'
+        $validated = $request->validate([
+            'n1' => ['required', 'numeric'],
+            'n2' => ['required', 'numeric'],
+            'op' => ['required', 'in:+,-,*,/,%,sqrt,pow'],
         ]);
 
-        $n1 = $request->input('n1');
-        $n2 = $request->input('n2');
-        $operador = $request->input('operador');
-        $resultado = null;
-        $error = null;
+        $n1 = (float) $validated['n1'];
+        $n2 = (float) $validated['n2'];
+        $op = $validated['op'];
 
-        //switch con las funciones de la calculadora segun el boton 
-        switch ($operador) {
-            case '+':
-                $resultado = $n1 + $n2;
-                break;
-            case '-':
-                $resultado = $n1 - $n2;
-                break;
-            case 'x':
-                $resultado = $n1 * $n2;
-                break;
-            case '÷':
-                if ($n2 == 0) {
-                    $error = "Error: Division por cero";
-                }else{
-                    $resultado = $n1 / $n2;
-                }
-                break;
-            case '%':
-                if ($n2 == 0) {
-                    $error = "Error: Division por cero";
-                }else{
-                    $resultado = $n1 % $n2;
-                }
-                break;
-            case 'x^n':
-                // Exponente (N1, elevado a N2)
-                $resultado = pow($n1, $n2);
-                break;
-            case '√n':
-                // Raíz cuadrada (Solo usa N1, ignora N2)
-                if ($n1 < 0) {
-                    $error = "Error: Raíz de número negativo";
-                } else {
-                    $resultado = sqrt($n1);
-                }
-                break;
+        $resultado = match($op) {
+            '+'    => $n1 + $n2,
+            '-'    => $n1 - $n2,
+            '*'    => $n1 * $n2,
+            '/'    => $n2 != 0 ? $n1 / $n2 : null,
+            '%'    => $n2 != 0 ? ($n1 / $n2) * 100 : null,
+            'sqrt' => $n1 >= 0 ? sqrt($n1) : null,
+            'pow'  => pow($n1, $n2),
+        };
+
+        if ($resultado === null) {
+            return response()->json([
+                'error' => 'Operación inválida (división entre cero o raíz negativa)',
+            ], 422);
         }
 
-        //Volvemos a la vista de la calculadora
-        return view('calculadora', [
-            'resultado' => $resultado,
-            'n1' => $n1,
-            'n2' => $n2,
-            'resultado' => $error
-
+        return response()->json([
+            'resultado' => round($resultado, 8),
+            'n1'        => $n1,
+            'n2'        => $n2,
+            'op'        => $op,
         ]);
     }
 }
