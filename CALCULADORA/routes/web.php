@@ -5,7 +5,7 @@ use App\Http\Controllers\CalculadoraController;
 use App\Http\Controllers\SesionController;
 use App\Http\Controllers\AhorcadoController;
 
-
+//Calculadora
 Route::get('/',           [CalculadoraController::class, 'index'])->name('calculadora');
 Route::post('/digito',    [CalculadoraController::class, 'digito'])->name('digito');
 Route::post('/operacion', [CalculadoraController::class, 'operacion'])->name('operacion');
@@ -15,7 +15,7 @@ Route::post('/activar',   [CalculadoraController::class, 'activar'])->name('acti
 Route::post('/borrar',    [CalculadoraController::class, 'borrar'])->name('borrar');
 Route::post('/limpiar',   [CalculadoraController::class, 'limpiar'])->name('limpiar');
 
-
+//Session
     Route::get('/sesion', [SesionController::class, 'index']);
 
     Route::post('/sesion/incrementar', [SesionController::class, 'incrementar']);
