@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CalculadoraController;
 use App\Http\Controllers\SesionController;
 use App\Http\Controllers\AhorcadoController;
+use App\Http\Controllers\GameController;
+
 
 //Calculadora
 Route::get('/',           [CalculadoraController::class, 'index'])->name('calculadora');
@@ -26,3 +28,9 @@ Route::post('/limpiar',   [CalculadoraController::class, 'limpiar'])->name('limp
 Route::get('/ahorcado', [AhorcadoController::class, 'index'])->name('ahorcado.index');
 Route::post('/ahorcado/letra', [AhorcadoController::class, 'probarLetra'])->name('ahorcado.letra');
 Route::post('/ahorcado/reiniciar', [AhorcadoController::class, 'reiniciar'])->name('ahorcado.reiniciar');
+
+//Consejos
+Route::post('/juego', [GameController::class, 'setup']);
+Route::get('/juego', function () {
+    return view('juego'); 
+});
