@@ -30,7 +30,7 @@ Route::post('/ahorcado/letra', [AhorcadoController::class, 'probarLetra'])->name
 Route::post('/ahorcado/reiniciar', [AhorcadoController::class, 'reiniciar'])->name('ahorcado.reiniciar');
 
 //Consejos
-Route::post('/juego', [GameController::class, 'setup']);
+Route::post('/generar-palabra', [GameController::class, 'setup']);
 Route::get('/juego', function () {
     return view('juego'); 
 });

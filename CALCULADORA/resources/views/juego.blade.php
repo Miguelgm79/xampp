@@ -25,7 +25,7 @@
         btn.disabled = true;
         btn.innerText = 'Generando...';
 
-        fetch('/generar-palabra', {
+        fetch('/generar-palabra',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
